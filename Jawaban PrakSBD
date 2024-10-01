@@ -1,1 +1,41 @@
-Jawaban
+1. Tampilkan ID_pesanan, nama_menu, dan harga yang memiliki harga di bawah 15.000
+
+SELECT p.id_pesanan, m.nama_menu, m.harga
+FROM pesanan p
+JOIN menu m ON p.id_menu = m.id_menu
+WHERE m.harga < 15000;
+
+2. Tampilkan Nama Pelanggan yang memesan makanan pada tanggal 12 September 2024
+
+SELECT pel.nama_pelanggan
+FROM pesanan p
+JOIN pelanggan pel ON p.id_pelanggan = pel.id_pelanggan
+WHERE p.tanggal_pesanan = '2024-09-12';
+
+3. Tampilkan nama pelanggan, nama menu, tanggal pesanan, dan jumlah pesanan dengan jumlah pesanan tidak boleh kurang dari 3
+
+SELECT pel.nama_pelanggan, m.nama_menu, p.tanggal_pesanan, p.jumlah
+FROM pesanan p
+JOIN pelanggan pel ON p.id_pelanggan = pel.id_pelanggan
+JOIN menu m ON p.id_menu = m.id_menu
+WHERE p.jumlah >= 3;
+
+4. Tampilkan nama pelanggan, id menu, tanggal pesanan, jumlah pesanan, dan harga dengan kolom "Keterangan Lanjutan"
+
+SELECT pel.nama_pelanggan, m.id_menu, p.tanggal_pesanan, p.jumlah, m.harga,
+    CASE 
+        WHEN (p.jumlah * m.harga) >= 35000 THEN 'Diskon 2000'
+        ELSE 'Tidak ada diskon'
+    END AS 'Keterangan Lanjutan'
+FROM pesanan p
+JOIN pelanggan pel ON p.id_pelanggan = pel.id_pelanggan
+JOIN menu m ON p.id_menu = m.id_menu;
+
+5. Tampilkan semua pesanan termasuk informasi tentang nama pelanggan, nama menu, tanggal pemesanan, jumlah pesanan, harga (diberi nama harga satuan), dan harga total menggunakan OUTER JOIN
+
+SELECT pel.nama_pelanggan, m.nama_menu, p.tanggal_pesanan, p.jumlah, m.harga AS 'harga satuan', (p.jumlah * m.harga) AS 'harga total'
+FROM pesanan p
+LEFT JOIN pelanggan pel ON p.id_pelanggan = pel.id_pelanggan
+LEFT JOIN menu m ON p.id_menu = m.id_menu;
+
+
